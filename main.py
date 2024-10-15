@@ -1,7 +1,11 @@
 from file_system import SistemaArquivos
 
 def menu():
-    sistema = SistemaArquivos(32)
+
+    print("="*5 + 'SISTEMA DE ARQUIVOS' + "="*5)
+    qtd_memoria = int(input('Quantos bytes tem a memória do sistema?'))
+
+    sistema = SistemaArquivos(qtd_memoria)
 
     while True:
         print("="*5 + " Menu " + "="*5)

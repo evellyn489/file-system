@@ -2,8 +2,11 @@ from file_system import SistemaArquivos
 
 def menu():
 
-    print("="*5 + 'SISTEMA DE ARQUIVOS' + "="*5)
+    print("="*5 + ' SISTEMA DE ARQUIVOS ' + "="*5)
+
+    print()
     qtd_memoria = int(input('Quantos bytes tem a memória do sistema?'))
+    print()
 
     sistema = SistemaArquivos(qtd_memoria)
 
@@ -38,7 +41,7 @@ def menu():
             sistema.imprimir_tabela_arquivos()
         
         elif opcao == 6:
-            print("Saindo do programa.")
+            print("Saindo do programa...")
             break
         
         else:

@@ -1,7 +1,7 @@
 class Bloco:
     def __init__(self, caractere=None, proximo=None):
         self.caractere = caractere
-        self.proximo = proximo  # Ponteiro para o próximo bloco, seja livre ou não
+        self.proximo = proximo  
 
 class TabelaArquivos:
     def __init__(self, nome, tamanho, endereco_inicial):
@@ -11,34 +11,30 @@ class TabelaArquivos:
 
 class Disco:
     def __init__(self, tamanho):
-        self.tamanho = tamanho // 3  # Cada bloco tem 3 bytes
-        self.blocos = []  # Inicializa os blocos
+        self.tamanho = tamanho // 3  
+        self.blocos = [] 
         for _ in range(self.tamanho):
-            self.blocos.append(Bloco())  # Adiciona um novo bloco à lista
-        self.mapa_bits = []  # Inicializa o mapa de bits
+            self.blocos.append(Bloco())  
+        self.mapa_bits = [] 
         for _ in range(self.tamanho):
-            self.mapa_bits.append(0)  # Adiciona um 0 ao mapa de bits, todos os blocos começam livres (0)
+            self.mapa_bits.append(0)  
 
     def alocar_bloco(self):
-        # Percorre o mapa de bits para encontrar o primeiro bloco livre (0)
         for i in range(self.tamanho):
-            if self.mapa_bits[i] == 0:  # Se o bloco está livre
-                self.mapa_bits[i] = 1  # Marca o bloco como ocupado
-                return i  # Retorna o índice do bloco alocado
-        return None  # Se nenhum bloco estiver livre, retorna None
+            if self.mapa_bits[i] == 0: 
+                self.mapa_bits[i] = 1  
+                return i
+        return None  
 
     def liberar_bloco(self, indice):
-        # Libera o bloco no mapa de bits
-        self.mapa_bits[indice] = 0  # Marca o bloco como livre
+        self.mapa_bits[indice] = 0  
 
     def imprimir_disco(self):
-        # Imprime o estado de cada bloco no disco
         for i, bloco in enumerate(self.blocos):
             prox = bloco.proximo if bloco.proximo is not None else "None"
             print(f"Bloco {i}: {bloco.caractere}, próximo: {prox}")
 
     def imprimir_mapa_bits(self):
-        # Imprime o estado atual do mapa de bits (livre = 0, ocupado = 1)
         print("Mapa de Bits:", self.mapa_bits)
 
 class SistemaArquivos:
@@ -53,13 +49,11 @@ class SistemaArquivos:
                 return
         tamanho = len(conteudo)
 
-        # Verifica se há blocos livres suficientes no mapa de bits
         blocos_disponiveis = self.disco.mapa_bits.count(0)
         if blocos_disponiveis < tamanho:
             print("Memória insuficiente!")
             return
 
-        # Alocar blocos para o arquivo
         endereco_inicial = self.disco.alocar_bloco()
         bloco_atual = endereco_inicial
 
@@ -72,7 +66,6 @@ class SistemaArquivos:
             self.disco.blocos[bloco_atual] = Bloco(caractere, proximo_bloco)
             bloco_atual = proximo_bloco
 
-        # Adicionar o arquivo à tabela de arquivos
         novo_arquivo = TabelaArquivos(nome, tamanho, endereco_inicial)
         self.tabela_arquivos.append(novo_arquivo)
         print(f"Arquivo '{nome}' criado com sucesso.")
@@ -113,8 +106,8 @@ class SistemaArquivos:
         while endereco is not None:
             bloco = self.disco.blocos[endereco]
             proximo = bloco.proximo
-            self.disco.blocos[endereco] = Bloco()  # Limpa o bloco
-            self.disco.liberar_bloco(endereco)  # Libera o bloco no mapa de bits
+            self.disco.blocos[endereco] = Bloco() 
+            self.disco.liberar_bloco(endereco)  
             endereco = proximo
 
         self.tabela_arquivos.remove(arquivo)
